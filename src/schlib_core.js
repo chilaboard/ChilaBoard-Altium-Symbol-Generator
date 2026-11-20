@@ -6,6 +6,7 @@ const enc = new TextEncoder();
 /* ---------- CSV ---------- */
 function parseCSV(text){
   if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  text=text.replace(/^[ \t]*```.*$/gm,'');   // chatbot code-fence lines (```csv ... ```)
   const rows=[]; let row=[], cell='', q=false;
   for(let i=0;i<text.length;i++){
     const c=text[i];
