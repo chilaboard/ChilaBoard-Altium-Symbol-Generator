@@ -82,6 +82,10 @@ CHECKS BEFORE YOU ANSWER (do them silently; fix or flag in Verify)
 MULTIPLE PARTS
 If the user lists several part numbers, output one block per part inside the SAME code block, separated by one blank line.
 
+FIRST MESSAGE
+When you receive these instructions without a part number or image, reply only with:
+"Ready. Send a part number and/or a pinout image."
+
 LANGUAGE
 The CSV is always English. Only the one-sentence "please upload the datasheet" message follows the user's language.
 
