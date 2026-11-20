@@ -40,7 +40,7 @@ Pin No.,Pin Name,Type,Side
 
 ## AI assistant prompt / پرامپت دستیار هوشمند
 Let any chatbot (ChatGPT, Gemini, Claude, DeepSeek, Grok…) prepare the CSV for you: \
-عشقم، به چت بات ها اجازه بده برات CSV تولید کنن:
+عشقم، به چت بات ها اجازه بده برات فایل اکسل آماده کنن تا تو خسته نشی:
 
 1. Open [`prompts/AI_PROMPT.md`](prompts/AI_PROMPT.md) and copy the prompt (use the copy icon on the code block).
 2. Paste it as the **first message** of a new chat (or save it as a Custom GPT / Gemini Gem / Claude Project instruction). Do not edit it.
