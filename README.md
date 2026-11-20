@@ -1,20 +1,10 @@
-[https://chilaboard.github.io/ChilaBoard-Altium-Symbol-Generator/
-
-<p align="center">
-  <a href="https://YOUR-USER.github.io/chilaboard-altium-tools/">
-    <img src="https://img.shields.io/badge/▶_Open_the_web_tool-1f5fbf?style=for-the-badge" alt="Open the web tool">
-  </a>
-</p>
-
-🌐 **Live tool / ابزار آنلاین:** https://chilaboard.github.io/ChilaBoard-Altium-Symbol-Generator/](https://chilaboard.github.io/ChilaBoard-Altium-Symbol-Generator/
-
 <p align="center">
   <a href="https://chilaboard.github.io/ChilaBoard-Altium-Symbol-Generator/">
     <img src="https://img.shields.io/badge/▶_Open_the_web_tool-1f5fbf?style=for-the-badge" alt="Open the web tool">
   </a>
 </p>
 
-🌐 **Live tool / ابزار آنلاین:** https://chilaboard.github.io/ChilaBoard-Altium-Symbol-Generator/)
+🌐 **Live tool / ابزار آنلاین:** https://chilaboard.github.io/ChilaBoard-Altium-Symbol-Generator/
 
 # Chila board – Altium SchLib Generator
 
