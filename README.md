@@ -39,7 +39,7 @@ Pin No.,Pin Name,Type,Side
 * Active-low pins: write `RESET#` (default) or choose the overbar style.
 
 ## AI assistant prompt / پرامپت دستیار هوشمند
-Let any chatbot (ChatGPT, Gemini, Claude, DeepSeek, Grok…) prepare the CSV for you:
+Let any chatbot (ChatGPT, Gemini, Claude, DeepSeek, Grok…) prepare the CSV for you: \
 عشقم، به چت بات ها اجازه بده برات CSV تولید کنن:
 
 1. Open [`prompts/AI_PROMPT.md`](prompts/AI_PROMPT.md) and copy the prompt (use the copy icon on the code block).
