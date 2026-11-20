@@ -1,0 +1,1 @@
+{"name":"chilaboard-altium-tools","version":"1.0.0","description":"CSV/XLSX to Altium .SchLib generator (web, CLI, and Altium script)","scripts":{"build":"node build.js","test":"node cli/schlib-cli.js examples/CH182D.csv /tmp/CH182D.SchLib"},"license":"MIT"}

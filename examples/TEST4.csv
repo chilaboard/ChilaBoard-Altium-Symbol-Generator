@@ -1,0 +1,11 @@
+Part Number,VALUE,Description,PARAM,PARAM2,Package,Price,Footprint
+TEST4,TEST4,"MCU, test, 32-bit, 64KB, QFN-8",3.3V,-40~85°C,QFN-8,,QFN-8
+Pin No.,Pin Name,Type,Side
+1,VDD,Power,Top
+2,PA0/ADC0,IO,Left
+3,PA1,IO,Left
+4,RESET#,Input,Left
+5,PB0/TX,Output,Right
+6,PB1/RX,Input,Right
+7,GND,Power,Bottom
+8,NC,Passive,Bottom

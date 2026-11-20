@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chila board · Altium SchLib Generator</title>
+<link rel="icon" href="{{LOGO}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Vazirmatn:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#1f4e8c; --blue2:#2f6fc4; --green:#2e8b57; --brown:#7a4a30;
+  --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.18);
+  --font:'Inter','Vazirmatn','Noto Sans SC','Noto Naskh Arabic',system-ui,-apple-system,'Segoe UI',Tahoma,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'Cascadia Code',Consolas,monospace;
+}
+[data-theme=dark]{
+  --bg:#0c1220; --bg2:#111a2e; --card:#141f36; --card2:#192746; --line:#243456; --text:#e8eefc; --muted:#93a4c8;
+  --accent:#4f9cff; --accent2:#2f6fc4; --accentText:#04122b; --ok:#3ddc97; --err:#ff6b7a;
+  --body:#fff7b0; --pinline:#ff9c7a; --pinname:#0a2a7a; --pinno:#ff7b8a; --bodystroke:#ff9c7a; --prevbg:#0e1830;
+  --glow:radial-gradient(900px 400px at 85% -10%,rgba(79,156,255,.22),transparent),radial-gradient(700px 360px at 0% 0%,rgba(46,139,87,.16),transparent);
+}
+[data-theme=light]{
+  --bg:#f3f6fc; --bg2:#ffffff; --card:#ffffff; --card2:#f0f4fb; --line:#d8e1f0; --text:#14213d; --muted:#5a6b8c;
+  --accent:#1f5fbf; --accent2:#174b97; --accentText:#ffffff; --ok:#16875a; --err:#c62839;
+  --body:#fffdd0; --pinline:#800000; --pinname:#0a2a7a; --pinno:#a00020; --bodystroke:#800000; --prevbg:#fbfcff;
+  --glow:radial-gradient(900px 400px at 85% -10%,rgba(31,95,191,.12),transparent),radial-gradient(700px 360px at 0% 0%,rgba(46,139,87,.10),transparent);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);background:var(--bg);background-image:var(--glow);background-repeat:no-repeat;color:var(--text);line-height:1.55;min-height:100vh}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
+.bar{max-width:1140px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;margin-inline-end:auto}
+.brand img{width:44px;height:44px;border-radius:12px;background:#fff;padding:3px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.brand b{display:block;font-size:17px;letter-spacing:.2px} .brand small{display:block;color:var(--muted);font-size:12px;direction:ltr;unicode-bidi:plaintext}
+.langs{display:flex;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px}
+.langs button{border:0;background:transparent;color:var(--muted);font:500 12.5px var(--font);padding:6px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+.langs button:hover{color:var(--text)} .langs button.on{background:var(--accent);color:var(--accentText);font-weight:700}
+.iconbtn{display:grid;place-items:center;padding:0;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;width:36px;height:36px;font-size:16px;cursor:pointer}
+.iconbtn:hover{border-color:var(--accent)}
+main{max-width:1140px;margin:0 auto;padding:26px 20px 10px}
+.hero{padding:10px 0 22px}
+.hero h1{margin:0 0 6px;font-size:clamp(24px,4vw,36px);line-height:1.2;letter-spacing:-.4px}
+.hero h1 span{background:linear-gradient(90deg,var(--accent),#47d6a0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:0;color:var(--muted);max-width:760px;font-size:15.5px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:12px;color:var(--muted);border:1px solid var(--line);background:var(--card);padding:4px 11px;border-radius:999px}
+.grid{display:grid;grid-template-columns:1.35fr 1fr;gap:18px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--shadow)}
+.card h2{margin:0 0 12px;font-size:14px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.full{grid-column:1/-1}
+textarea{width:100%;height:210px;resize:vertical;direction:ltr;text-align:left;font-family:var(--mono);font-size:12.5px;line-height:1.5;background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;outline:none}
+textarea:focus,input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.btn{font:600 13.5px var(--font);border-radius:10px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:var(--card2);color:var(--text);transition:.15s}
+.btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:var(--accentText)}
+.btn.primary:hover{filter:brightness(1.08)} .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
+.file{position:relative;overflow:hidden} .file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opts label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--muted)}
+.opts .wide{grid-column:1/-1}
+input[type=number],input[type=text],select{font:500 13.5px var(--font);background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:8px 10px;outline:none;width:100%}
+.dlrow{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.dlrow .name{display:flex;align-items:center;gap:6px;flex:1;min-width:180px;direction:ltr}
+.dlrow .name span{color:var(--muted);font-size:13px}
+#log{white-space:pre-wrap;direction:ltr;text-align:left;font-family:var(--mono);font-size:12px;border-radius:10px;padding:10px 12px;margin-top:12px;background:var(--bg2);border:1px solid var(--line);color:var(--ok);min-height:40px}
+#log.err{color:var(--err);border-color:color-mix(in srgb,var(--err) 50%,var(--line))}
+.prevhead{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+.prevhead h2{margin:0}
+#prev{background:var(--prevbg);border:1px dashed var(--line);border-radius:12px;overflow:auto;padding:8px;direction:ltr;text-align:center}
+#prev svg{max-width:100%;height:auto}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;counter-reset:s}
+@media(max-width:800px){.steps{grid-template-columns:1fr}}
+.step{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;position:relative}
+.step:before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accentText);font-weight:700;font-size:13px;margin-bottom:8px}
+.step p{margin:0;font-size:13.5px;color:var(--muted)}
+pre.fmt{direction:ltr;text-align:left;margin:14px 0 0;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;font:12.5px/1.55 var(--mono);overflow:auto;color:var(--text)}
+.note{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+footer{max-width:1140px;margin:0 auto;padding:26px 20px 40px;color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:26px}
+footer img{width:26px;height:26px;border-radius:7px;background:#fff;padding:2px;vertical-align:middle;margin-inline-end:8px}
+footer .tag{direction:ltr;unicode-bidi:plaintext;font-weight:600;color:var(--text)}
+html[dir=rtl] .opts label,html[dir=rtl] .hero,html[dir=rtl] .card h2{text-align:right}
+html[lang=fa] body{font-family:'Vazirmatn','Inter',system-ui,Tahoma,sans-serif}
+html[lang=ar] body{font-family:'Noto Naskh Arabic','Vazirmatn','Inter',system-ui,Tahoma,sans-serif}
+html[lang=zh] body{font-family:'Noto Sans SC','Inter',system-ui,'Microsoft YaHei',sans-serif}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="brand"><img src="{{LOGO}}" alt="Chila board"><div><b data-i="brand">Chila board</b><small>@chilaboard</small></div></div>
+  <div class="langs" id="langs" role="group" aria-label="Language"></div>
+  <button class="iconbtn" id="theme" title="Theme" aria-label="Theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+</div></header>
+
+<main>
+  <section class="hero">
+    <h1><span data-i="title">Altium SchLib Generator</span></h1>
+    <p data-i="sub"></p>
+    <div class="chips"><span class="chip" data-i="chip1"></span><span class="chip" data-i="chip2"></span><span class="chip" data-i="chip3"></span></div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2 data-i="in_title"></h2>
+      <textarea id="t" spellcheck="false" data-iph="ph"></textarea>
+      <div class="row">
+        <span class="btn file"><span data-i="load"></span><input type="file" id="f" accept=".csv,.xlsx,.xls,.txt" multiple></span>
+        <button class="btn" id="demo" data-i="demo"></button>
+        <button class="btn" id="clear" data-i="clear"></button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="opt_title"></h2>
+      <div class="opts">
+        <label><span data-i="spacing"></span><input type="number" id="sp" value="10" min="10" step="10"></label>
+        <label><span data-i="lenLR"></span><input type="number" id="ll" value="30" min="10" step="10"></label>
+        <label><span data-i="lenTB"></span><input type="number" id="lt" value="10" min="10" step="10"></label>
+        <label><span data-i="activeLow"></span><select id="al"><option value="hash" data-i="al_hash"></option><option value="overbar" data-i="al_over"></option></select></label>
+        <label class="wide"><span data-i="order"></span><select id="ro"><option value="ccw" data-i="o_ccw"></option><option value="topdown" data-i="o_td"></option></select></label>
+      </div>
+      <div class="dlrow">
+        <div class="name"><input type="text" id="fn" value="MyLib"><span>.SchLib</span></div>
+      </div>
+      <div class="row"><button class="btn primary" id="go" data-i="gen"></button>
+        <button class="btn primary" id="dl" disabled data-i="dl"></button></div>
+      <div id="log"></div>
+    </section>
+
+    <section class="card full">
+      <div class="prevhead"><h2 data-i="prev_title"></h2><select id="ps" style="max-width:320px"></select></div>
+      <div id="prev"></div>
+    </section>
+
+    <section class="card full">
+      <h2 data-i="how_title"></h2>
+      <div class="steps">
+        <div class="step"><p data-i="s1"></p></div>
+        <div class="step"><p data-i="s2"></p></div>
+        <div class="step"><p data-i="s3"></p></div>
+      </div>
+<pre class="fmt">Part Number,VALUE,Description,PARAM,PARAM2,Package,Price,Footprint
+CH182D,CH182,"ETH PHY, 10/100M, RMII, QFN-20","10/100M, -40~85°C",3.3V,QFN-20,,
+Pin No.,Pin Name,Type,Side
+1,X0,Output,Left
+2,XI,Input,Left
+14,RST#,Input,Left
+21,GND,Power,Bottom
+                                  &lt;- blank line, next part</pre>
+      <p class="note" data-i="fmt_note"></p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div><img src="{{LOGO}}" alt=""><span class="tag">@chilaboard</span> · <a href="http://www.chila.ir" target="_blank" rel="noopener">chila.ir</a></div>
+  <div data-i="footer_local"></div>
+  <div data-i="footer_credit"></div>
+</footer>
+
+<script>/*CFB*/</script>
+<script>/*XLSX*/</script>
+<script>/*CORE*/</script>
+<script>
+const I18N={
+en:{brand:'Chila board',title:'Altium SchLib Generator',
+ sub:'Turn a part table and its pinout into a ready-to-open Altium Designer schematic library. Paste from a datasheet or Excel, tune the symbol, preview it, download.',
+ chip1:'CSV / XLSX / paste',chip2:'Runs 100% in your browser',chip3:'Altium 24 compatible format',
+ in_title:'1 · Part data',ph:'Part Number,VALUE,Description,...\nPin No.,Pin Name,Type,Side\n1,VDD,Power,Top\n...',
+ load:'Load CSV / XLSX',demo:'Demo',clear:'Clear',
+ opt_title:'2 · Symbol options',spacing:'Pin spacing (×10 mil)',lenLR:'Left / right pin length',lenTB:'Top / bottom pin length',
+ activeLow:'Active-low style',al_hash:'Name# (as typed)',al_over:'Overbar (R\\E\\S\\E\\T\\)',
+ order:'Pin order on right / top',o_ccw:'Counter-clockwise (datasheet style)',o_td:'Top-down / left-to-right',
+ gen:'Generate',dl:'Download .SchLib',prev_title:'3 · Preview',
+ parsed:'{n} component(s) parsed.',failed:'FAILED: ',
+ how_title:'How it works',s1:'Prepare a table: one part row (Part Number, Description, parameters…) followed by a pin table with Pin No., Pin Name, Type and Side.',
+ s2:'Load a CSV/XLSX file or paste the text. Several parts can follow each other, separated by a blank line. Check the preview.',
+ s3:'Press Generate, download the .SchLib and open it in Altium Designer with File → Open.',
+ fmt_note:'Type: Input, IO, Output, OpenCollector, Passive, HiZ, OpenEmitter, Power · Side: Left, Right, Top, Bottom · Library reference ≤ 31 characters.',
+ footer_local:'All processing happens locally in your browser; nothing is uploaded.',footer_credit:'Free to use — please keep the Chila board credit.',theme:'Theme'},
+fa:{brand:'چیلابرد',title:'مولد کتابخانه‌ی شماتیک آلتیوم',
+ sub:'جدول مشخصات قطعه و پین‌اوت آن را به یک کتابخانه‌ی شماتیک آماده‌ی Altium Designer تبدیل کنید. از دیتاشیت یا اکسل پیست کنید، سیمبل را تنظیم کنید، پیش‌نمایش ببینید و دانلود کنید.',
+ chip1:'CSV / XLSX / پیست',chip2:'۱۰۰٪ داخل مرورگر شما اجرا می‌شود',chip3:'سازگار با Altium 24',
+ in_title:'۱ · اطلاعات قطعه',ph:'Part Number,VALUE,Description,...\nPin No.,Pin Name,Type,Side\n1,VDD,Power,Top\n...',
+ load:'بارگذاری CSV / XLSX',demo:'نمونه',clear:'پاک کردن',
+ opt_title:'۲ · تنظیمات سیمبل',spacing:'فاصله‌ی پین‌ها (×۱۰ میل)',lenLR:'طول پین چپ / راست',lenTB:'طول پین بالا / پایین',
+ activeLow:'سبک فعال-پایین',al_hash:'Name# (عادی)',al_over:'خط‌بالا (R\\E\\S\\E\\T\\)',
+ order:'ترتیب پین‌های راست / بالا',o_ccw:'پادساعت‌گرد (مثل دیتاشیت)',o_td:'بالا به پایین / چپ به راست',
+ gen:'تولید',dl:'دانلود .SchLib',prev_title:'۳ · پیش‌نمایش',
+ parsed:'{n} قطعه خوانده شد.',failed:'خطا: ',
+ how_title:'روش کار',s1:'یک جدول آماده کنید: یک ردیف مشخصات قطعه (Part Number، Description، پارامترها …) و بعد جدول پین‌ها با ستون‌های Pin No.، Pin Name، Type و Side.',
+ s2:'فایل CSV/XLSX را بارگذاری یا متن را پیست کنید. چند قطعه را می‌توان پشت هم و با یک خط خالی جدا کرد. پیش‌نمایش را بررسی کنید.',
+ s3:'دکمه‌ی تولید را بزنید، فایل .SchLib را دانلود کنید و در Altium Designer با File → Open باز کنید.',
+ fmt_note:'Type: Input, IO, Output, OpenCollector, Passive, HiZ, OpenEmitter, Power · Side: Left, Right, Top, Bottom · نام قطعه حداکثر ۳۱ نویسه.',
+ footer_local:'همه‌ی پردازش‌ها محلی و داخل مرورگر شما انجام می‌شود؛ چیزی آپلود نمی‌شود.',footer_credit:'استفاده رایگان است — لطفاً نام چیلابرد حفظ شود.',theme:'پوسته'},
+zh:{brand:'Chila board',title:'Altium 原理图库生成器',
+ sub:'将元器件参数表和引脚表一键转换为可直接打开的 Altium Designer 原理图库。可从数据手册或 Excel 粘贴，调整符号、预览并下载。',
+ chip1:'CSV / XLSX / 粘贴',chip2:'完全在浏览器本地运行',chip3:'兼容 Altium 24 格式',
+ in_title:'1 · 元器件数据',ph:'Part Number,VALUE,Description,...\nPin No.,Pin Name,Type,Side\n1,VDD,Power,Top\n...',
+ load:'加载 CSV / XLSX',demo:'示例',clear:'清空',
+ opt_title:'2 · 符号选项',spacing:'引脚间距（×10 mil）',lenLR:'左 / 右引脚长度',lenTB:'上 / 下引脚长度',
+ activeLow:'低电平有效样式',al_hash:'Name#（按输入）',al_over:'上划线（R\\E\\S\\E\\T\\）',
+ order:'右侧 / 顶部引脚顺序',o_ccw:'逆时针（数据手册样式）',o_td:'自上而下 / 自左向右',
+ gen:'生成',dl:'下载 .SchLib',prev_title:'3 · 预览',
+ parsed:'已解析 {n} 个元件。',failed:'失败：',
+ how_title:'使用方法',s1:'准备一个表格：一行元件信息（Part Number、Description、参数…），后面跟引脚表（Pin No.、Pin Name、Type、Side）。',
+ s2:'加载 CSV/XLSX 文件或直接粘贴文本。多个元件之间用空行分隔。检查预览。',
+ s3:'点击“生成”，下载 .SchLib，并在 Altium Designer 中通过 File → Open 打开。',
+ fmt_note:'Type：Input、IO、Output、OpenCollector、Passive、HiZ、OpenEmitter、Power · Side：Left、Right、Top、Bottom · 库引用名不超过 31 个字符。',
+ footer_local:'所有处理均在您的浏览器本地完成，不会上传任何内容。',footer_credit:'免费使用——请保留 Chila board 署名。',theme:'主题'},
+ar:{brand:'Chila board',title:'مولّد مكتبة المخططات لـ Altium',
+ sub:'حوّل جدول مواصفات القطعة وجدول الأطراف إلى مكتبة مخططات جاهزة للفتح في Altium Designer. الصق من ورقة البيانات أو Excel، اضبط الرمز، عاينه ثم نزّله.',
+ chip1:'CSV / XLSX / لصق',chip2:'يعمل بالكامل داخل متصفحك',chip3:'متوافق مع Altium 24',
+ in_title:'1 · بيانات القطعة',ph:'Part Number,VALUE,Description,...\nPin No.,Pin Name,Type,Side\n1,VDD,Power,Top\n...',
+ load:'تحميل CSV / XLSX',demo:'مثال',clear:'مسح',
+ opt_title:'2 · خيارات الرمز',spacing:'تباعد الأطراف (×10 مل)',lenLR:'طول الطرف يسار / يمين',lenTB:'طول الطرف أعلى / أسفل',
+ activeLow:'نمط الفعّال عند المستوى المنخفض',al_hash:'Name# (كما كُتب)',al_over:'خط علوي (R\\E\\S\\E\\T\\)',
+ order:'ترتيب الأطراف يمين / أعلى',o_ccw:'عكس اتجاه عقارب الساعة (نمط ورقة البيانات)',o_td:'من الأعلى إلى الأسفل / من اليسار إلى اليمين',
+ gen:'توليد',dl:'تنزيل .SchLib',prev_title:'3 · المعاينة',
+ parsed:'تم تحليل {n} قطعة.',failed:'فشل: ',
+ how_title:'طريقة العمل',s1:'جهّز جدولاً: صف واحد لمعلومات القطعة (Part Number وDescription والمعاملات…) يليه جدول الأطراف (Pin No. وPin Name وType وSide).',
+ s2:'حمّل ملف CSV/XLSX أو الصق النص. يمكن وضع عدة قطع تفصل بينها سطر فارغ. تحقق من المعاينة.',
+ s3:'اضغط «توليد» ونزّل ملف .SchLib ثم افتحه في Altium Designer عبر File → Open.',
+ fmt_note:'Type: Input, IO, Output, OpenCollector, Passive, HiZ, OpenEmitter, Power · Side: Left, Right, Top, Bottom · اسم المرجع حتى 31 حرفاً.',
+ footer_local:'تتم كل المعالجة محلياً داخل متصفحك دون رفع أي شيء.',footer_credit:'الاستخدام مجاني — يرجى الإبقاء على اسم Chila board.',theme:'السمة'},
+de:{brand:'Chila board',title:'Altium-SchLib-Generator',
+ sub:'Wandelt eine Bauteiltabelle samt Pinbelegung in eine sofort öffnbare Altium-Designer-Schaltplanbibliothek um. Aus Datenblatt oder Excel einfügen, Symbol anpassen, Vorschau prüfen, herunterladen.',
+ chip1:'CSV / XLSX / Einfügen',chip2:'Läuft vollständig im Browser',chip3:'Altium-24-kompatibles Format',
+ in_title:'1 · Bauteildaten',ph:'Part Number,VALUE,Description,...\nPin No.,Pin Name,Type,Side\n1,VDD,Power,Top\n...',
+ load:'CSV / XLSX laden',demo:'Beispiel',clear:'Leeren',
+ opt_title:'2 · Symboloptionen',spacing:'Pinabstand (×10 mil)',lenLR:'Pinlänge links / rechts',lenTB:'Pinlänge oben / unten',
+ activeLow:'Low-aktiv-Darstellung',al_hash:'Name# (wie eingegeben)',al_over:'Überstrich (R\\E\\S\\E\\T\\)',
+ order:'Pinreihenfolge rechts / oben',o_ccw:'Gegen den Uhrzeigersinn (wie im Datenblatt)',o_td:'Von oben nach unten / links nach rechts',
+ gen:'Erzeugen',dl:'.SchLib herunterladen',prev_title:'3 · Vorschau',
+ parsed:'{n} Bauteil(e) eingelesen.',failed:'FEHLER: ',
+ how_title:'So funktioniert es',s1:'Tabelle vorbereiten: eine Bauteilzeile (Part Number, Description, Parameter …) gefolgt von der Pintabelle mit Pin No., Pin Name, Type und Side.',
+ s2:'CSV/XLSX-Datei laden oder Text einfügen. Mehrere Bauteile werden durch eine Leerzeile getrennt. Vorschau prüfen.',
+ s3:'Auf „Erzeugen“ klicken, die .SchLib herunterladen und in Altium Designer über File → Open öffnen.',
+ fmt_note:'Type: Input, IO, Output, OpenCollector, Passive, HiZ, OpenEmitter, Power · Side: Left, Right, Top, Bottom · Bibliotheksreferenz max. 31 Zeichen.',
+ footer_local:'Die gesamte Verarbeitung erfolgt lokal in Ihrem Browser; es wird nichts hochgeladen.',footer_credit:'Kostenlos nutzbar — bitte den Hinweis auf Chila board beibehalten.',theme:'Design'},
+es:{brand:'Chila board',title:'Generador de SchLib para Altium',
+ sub:'Convierte una tabla de componentes y su pinout en una biblioteca esquemática lista para abrir en Altium Designer. Pega desde la hoja de datos o Excel, ajusta el símbolo, revisa la vista previa y descarga.',
+ chip1:'CSV / XLSX / pegar',chip2:'Se ejecuta 100 % en tu navegador',chip3:'Formato compatible con Altium 24',
+ in_title:'1 · Datos del componente',ph:'Part Number,VALUE,Description,...\nPin No.,Pin Name,Type,Side\n1,VDD,Power,Top\n...',
+ load:'Cargar CSV / XLSX',demo:'Ejemplo',clear:'Borrar',
+ opt_title:'2 · Opciones del símbolo',spacing:'Separación de pines (×10 mil)',lenLR:'Longitud de pin izquierda / derecha',lenTB:'Longitud de pin superior / inferior',
+ activeLow:'Estilo activo en bajo',al_hash:'Name# (como se escribe)',al_over:'Sobrerrayado (R\\E\\S\\E\\T\\)',
+ order:'Orden de pines derecha / arriba',o_ccw:'Antihorario (estilo hoja de datos)',o_td:'De arriba abajo / de izquierda a derecha',
+ gen:'Generar',dl:'Descargar .SchLib',prev_title:'3 · Vista previa',
+ parsed:'{n} componente(s) leído(s).',failed:'ERROR: ',
+ how_title:'Cómo funciona',s1:'Prepara una tabla: una fila con los datos del componente (Part Number, Description, parámetros…) seguida de la tabla de pines con Pin No., Pin Name, Type y Side.',
+ s2:'Carga un archivo CSV/XLSX o pega el texto. Varios componentes se separan con una línea en blanco. Revisa la vista previa.',
+ s3:'Pulsa Generar, descarga el .SchLib y ábrelo en Altium Designer con File → Open.',
+ fmt_note:'Type: Input, IO, Output, OpenCollector, Passive, HiZ, OpenEmitter, Power · Side: Left, Right, Top, Bottom · Referencia de biblioteca ≤ 31 caracteres.',
+ footer_local:'Todo el procesamiento se hace localmente en tu navegador; no se sube nada.',footer_credit:'Uso gratuito — por favor conserva el crédito de Chila board.',theme:'Tema'}
+};
+const LANGS=[['en','English'],['fa','فارسی'],['zh','中文'],['ar','العربية'],['de','Deutsch'],['es','Español']];
+const DEMO=`Part Number,VALUE,Description,PARAM,PARAM2,Package,Price,Footprint
+DEMO-MCU,DEMO-MCU,"MCU, Demo, 32-bit, 64KB, QFN-16",3.3V,-40~85°C,QFN-16,,
+Pin No.,Pin Name,Type,Side
+1,VDD,Power,Top
+2,PA0/ADC0/TIM2_CH1,IO,Left
+3,PA1/ADC1/TIM2_CH2,IO,Left
+4,PA2/USART2_TX,IO,Left
+5,PA3/USART2_RX,IO,Left
+6,RESET#,Input,Left
+7,BOOT0,Input,Left
+8,PB0/SPI1_NSS,IO,Right
+9,PB1/SPI1_SCK,IO,Right
+10,PB2/SPI1_MISO,IO,Right
+11,PB3/SPI1_MOSI,IO,Right
+12,SWDIO,IO,Right
+13,SWCLK,Input,Right
+14,GND,Power,Bottom
+15,VSSA,Power,Bottom
+16,VDDA,Power,Top
+`;
+const $=id=>document.getElementById(id); let parts=[],blob=null,lang='en',lastErr=false,lastMsg=null;
+const T=k=>(I18N[lang]&&I18N[lang][k])||I18N.en[k]||k;
+function store(k,v){try{localStorage.setItem(k,v)}catch(e){}} function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
+
+function applyLang(l){
+  lang=l; store('cb_lang',l);
+  document.documentElement.lang=l; document.documentElement.dir=(l==='fa'||l==='ar')?'rtl':'ltr';
+  const rtl=(l==='fa'||l==='ar'), iso=t=>rtl?t.replace(/\.?[A-Za-z0-9][A-Za-z0-9 .#_\/\\\-→+()×:]*[A-Za-z0-9.#)]/g,m=>'\u2066'+m+'\u2069'):t;
+  document.querySelectorAll('[data-i]').forEach(e=>{e.textContent=iso(T(e.dataset.i))});
+  document.querySelectorAll('[data-iph]').forEach(e=>{e.placeholder=T(e.dataset.iph)});
+  document.title='Chila board · '+T('title');
+  $('theme').title=T('theme');
+  document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  if(lastMsg) showLog(); preview();
+}
+function showLog(){const L=$('log');L.classList.toggle('err',lastErr);L.textContent=lastMsg.text()}
+function setLog(fn,err){lastMsg={text:fn};lastErr=!!err;showLog()}
+function opts(){return {spacing:+$('sp').value,lenLR:+$('ll').value,lenTB:+$('lt').value,activeLow:$('al').value,rightOrder:$('ro').value}}
+
+$('f').onchange=async e=>{
+  let out=[];
+  for(const f of e.target.files){
+    if(/\.xlsx?$/i.test(f.name)){ const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});
+      wb.SheetNames.forEach(n=>out.push(XLSX.utils.sheet_to_csv(wb.Sheets[n],{blankrows:true}))); }
+    else out.push(await f.text());
+  }
+  $('t').value=out.join('\n\n'); const b=e.target.files[0]; if(b) $('fn').value=b.name.replace(/\.[^.]+$/,'');
+  go(); e.target.value='';
+};
+let timer=null; $('t').addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(go,350)});
+['sp','ll','lt','al','ro'].forEach(i=>$(i).addEventListener('change',go));
+$('demo').onclick=()=>{$('t').value=DEMO;$('fn').value='DEMO';go()};
+$('clear').onclick=()=>{$('t').value='';go()};
+
+function go(){
+  blob=null; $('dl').disabled=true;
+  if(!$('t').value.trim()){parts=[];$('log').textContent='';$('log').classList.remove('err');lastMsg=null;$('ps').innerHTML='';preview();return}
+  try{
+    const R=SchLibCore.parseParts(SchLibCore.parseCSV($('t').value));
+    parts=R.parts; const errs=R.errors.slice();
+    setLog(()=>T('parsed').replace('{n}',parts.length)+(errs.length?'\n'+errs.map(x=>'⚠ '+x).join('\n'):''),errs.length>0);
+    const cur=$('ps').value;
+    $('ps').innerHTML=parts.map((p,i)=>`<option value="${i}">${p.name.replace(/&/g,'&amp;').replace(/</g,'&lt;')} (${p.pins.length})</option>`).join('');
+    if(cur&&parts[+cur]) $('ps').value=cur;
+    preview();
+    if(!parts.length||errs.length) return;
+    const lib=SchLibCore.buildSchLib(CFB,parts,opts());
+    blob=new Blob([CFB.write(lib.cfb,{type:'array'})],{type:'application/octet-stream'});
+    $('dl').disabled=false;
+  }catch(e){const m=e.message;setLog(()=>T('failed')+m,true)}
+}
+$('go').onclick=go; $('ps').onchange=preview;
+$('dl').onclick=()=>{if(!blob)go(); if(!blob)return; const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=($('fn').value||'Lib')+'.SchLib';document.body.appendChild(a);a.click();a.remove()};
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function preview(){
+  const p=parts[+$('ps').value]; if(!p){$('prev').innerHTML='';return}
+  const o=opts(), r=SchLibCore.layout(p,o), padX=o.lenLR+60, padY=o.lenTB+60;
+  let s=`<rect x="0" y="0" width="${r.W}" height="${r.H}" rx="1.5" fill="var(--body)" stroke="var(--bodystroke)" stroke-width="1.6"/>`;
+  r.pins.forEach(q=>{
+    const dx=[1,0,-1,0][q.rot],dy=[0,-1,0,1][q.rot];
+    const X=q.x,Y=-q.y,X2=X+dx*q.len,Y2=Y+dy*q.len;
+    const nm=esc(SchLibCore.displayName(q.name,o.activeLow).replace(/\\/g,''));
+    s+=`<line x1="${X}" y1="${Y}" x2="${X2}" y2="${Y2}" stroke="var(--pinline)" stroke-width="1.2"/>`;
+    if(dy===0){
+      s+=`<text x="${X-dx*3}" y="${Y+2.5}" font-size="7" text-anchor="${dx>0?'end':'start'}" fill="var(--pinname)">${nm}</text>`;
+      s+=`<text x="${(X+X2)/2}" y="${Y-2}" font-size="5.2" text-anchor="middle" fill="var(--pinno)">${esc(q.no)}</text>`;
+    }else{
+      const ty=Y-dy*3, tx=X+2.4;
+      s+=`<text x="${tx}" y="${ty}" font-size="7" text-anchor="start" fill="var(--pinname)" transform="rotate(${dy<0?90:-90} ${tx} ${ty})">${nm}</text>`;
+      s+=`<text x="${X+3}" y="${(Y+Y2)/2+2}" font-size="5.2" fill="var(--pinno)">${esc(q.no)}</text>`;
+    }
+  });
+  s+=`<text x="${r.W/2}" y="${r.H/2+3}" font-size="10" font-weight="600" text-anchor="middle" fill="var(--pinname)" opacity=".85">${esc(p.value||p.name)}</text>`;
+  const w=r.W+2*padX,h=r.H+2*padY,sc=1.5;
+  $('prev').innerHTML=`<svg viewBox="${-padX} ${-padY} ${w} ${h}" width="${Math.min(1060,w*sc)}" height="${h*sc}" font-family="var(--mono)">${s}</svg>`;
+}
+
+/* theme + language */
+function applyTheme(t){document.documentElement.dataset.theme=t;store('cb_theme',t)}
+$('theme').onclick=()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+$('langs').innerHTML=LANGS.map(([c,n])=>`<button data-l="${c}">${n}</button>`).join('');
+$('langs').onclick=e=>{const b=e.target.closest('button');if(b)applyLang(b.dataset.l)};
+applyTheme(load('cb_theme')|| (matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
+applyLang('en');            // English is always the default
+$('t').value=DEMO; go();
+</script>
+</body></html>
