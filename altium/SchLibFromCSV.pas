@@ -493,6 +493,9 @@ begin
   Info := TStringList.Create; Pins := TStringList.Create;
   Count := 0;
   AnyBlock := False;
+  // drop chatbot code-fence lines (```csv ... ```)
+  for i := Lines.Count - 1 downto 0 do
+    if Copy(Trim(Lines.Strings[i]), 1, 3) = '```' then Lines.Delete(i);
   i := 0;
   while i < Lines.Count do
   begin
