@@ -81,6 +81,9 @@ input[type=number],input[type=text],select{font:500 13.5px var(--font);backgroun
 .step p{margin:0;font-size:13.5px;color:var(--muted)}
 pre.fmt{direction:ltr;text-align:left;margin:14px 0 0;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;font:12.5px/1.55 var(--mono);overflow:auto;color:var(--text)}
 .note{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+#promptPre{display:none;direction:ltr;text-align:left;white-space:pre-wrap;margin:14px 0 0;max-height:380px;overflow:auto;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;font:12px/1.55 var(--mono);color:var(--text)}
+#promptPre.open{display:block}
+.steps.two{grid-template-columns:repeat(3,1fr)}
 footer{max-width:1140px;margin:0 auto;padding:26px 20px 40px;color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:26px}
 footer img{width:26px;height:26px;border-radius:7px;background:#fff;padding:2px;vertical-align:middle;margin-inline-end:8px}
 footer .tag{direction:ltr;unicode-bidi:plaintext;font-weight:600;color:var(--text)}
@@ -154,6 +157,21 @@ Pin No.,Pin Name,Type,Side
                                   &lt;- blank line, next part</pre>
       <p class="note" data-i="fmt_note"></p>
     </section>
+
+    <section class="card full" id="ai">
+      <h2 data-i="ai_title"></h2>
+      <p class="note" style="margin:0 0 12px" data-i="ai_desc"></p>
+      <div class="steps">
+        <div class="step"><p data-i="ai_s1"></p></div>
+        <div class="step"><p data-i="ai_s2"></p></div>
+        <div class="step"><p data-i="ai_s3"></p></div>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="pcopy" data-i="ai_copy"></button>
+        <button class="btn" id="ptoggle" data-i="ai_show"></button>
+      </div>
+      <pre id="promptPre"></pre>
+    </section>
   </div>
 </main>
 
@@ -163,6 +181,7 @@ Pin No.,Pin Name,Type,Side
   <div data-i="footer_credit"></div>
 </footer>
 
+<script type="text/plain" id="promptSrc">{{PROMPT}}</script>
 <script>/*CFB*/</script>
 <script>/*XLSX*/</script>
 <script>/*CORE*/</script>
@@ -259,6 +278,40 @@ es:{brand:'Chila board',title:'Generador de SchLib para Altium',
  fmt_note:'Type: Input, IO, Output, OpenCollector, Passive, HiZ, OpenEmitter, Power · Side: Left, Right, Top, Bottom · Referencia de biblioteca ≤ 31 caracteres.',
  footer_local:'Todo el procesamiento se hace localmente en tu navegador; no se sube nada.',footer_credit:'Uso gratuito — por favor conserva el crédito de Chila board.',theme:'Tema'}
 };
+
+const AI={
+en:{ai_title:'AI assistant prompt',ai_desc:'Let any chatbot (ChatGPT, Gemini, Claude, DeepSeek, Grok…) prepare the CSV for you from a part number or a picture of the pinout.',
+ ai_s1:'Copy the prompt and paste it as the first message of a new chat (or save it as the instructions of a Custom GPT / Gemini Gem / Claude Project). Do not edit it.',
+ ai_s2:'In the next message send the part number and/or a picture of the pinout table or the package drawing.',
+ ai_s3:'Copy the CSV it returns and paste it into the box above. If the bot cannot find the part online, it will ask you for the datasheet.',
+ ai_copy:'Copy prompt',ai_copied:'Copied ✓',ai_show:'Show prompt',ai_hide:'Hide prompt'},
+fa:{ai_title:'پرامپت دستیار هوشمند',ai_desc:'بگذارید هر چت‌باتی (ChatGPT، Gemini، Claude، DeepSeek، Grok و …) از روی پارت نامبر یا عکس پین‌اوت، فایل CSV را برایتان آماده کند.',
+ ai_s1:'پرامپت را کپی کنید و در اولین پیام یک چت جدید پیست کنید (یا آن را در بخش دستورالعمل Custom GPT / Gemini Gem / پروژه‌ی Claude ذخیره کنید). آن را ویرایش نکنید.',
+ ai_s2:'در پیام بعدی پارت نامبر و/یا عکس جدول پین‌ها یا نقشه‌ی پکیج را بفرستید.',
+ ai_s3:'CSV برگردانده‌شده را کپی کنید و در کادر بالا پیست کنید. اگر ربات قطعه را در اینترنت پیدا نکند، از شما دیتاشیت می‌خواهد.',
+ ai_copy:'کپی پرامپت',ai_copied:'کپی شد ✓',ai_show:'نمایش پرامپت',ai_hide:'پنهان کردن پرامپت'},
+zh:{ai_title:'AI 助手提示词',ai_desc:'让任意聊天机器人（ChatGPT、Gemini、Claude、DeepSeek、Grok 等）根据型号或引脚图图片为你生成 CSV。',
+ ai_s1:'复制提示词，粘贴为新对话的第一条消息（或保存为 Custom GPT / Gemini Gem / Claude Project 的指令）。请勿修改。',
+ ai_s2:'在下一条消息中发送元器件型号和/或引脚表、封装图的图片。',
+ ai_s3:'复制它返回的 CSV，粘贴到上方输入框。如果机器人在网上找不到该器件，会要求你提供数据手册。',
+ ai_copy:'复制提示词',ai_copied:'已复制 ✓',ai_show:'显示提示词',ai_hide:'隐藏提示词'},
+ar:{ai_title:'موجّه المساعد الذكي',ai_desc:'دع أي روبوت دردشة (ChatGPT وGemini وClaude وDeepSeek وGrok…) يجهّز ملف CSV من رقم القطعة أو صورة جدول الأطراف.',
+ ai_s1:'انسخ الموجّه والصقه كأول رسالة في محادثة جديدة (أو احفظه كتعليمات لـ Custom GPT / Gemini Gem / مشروع Claude). لا تعدّله.',
+ ai_s2:'في الرسالة التالية أرسل رقم القطعة و/أو صورة جدول الأطراف أو رسم الغلاف.',
+ ai_s3:'انسخ ملف CSV الذي يعيده والصقه في المربع أعلاه. إذا لم يجد الروبوت القطعة على الإنترنت فسيطلب منك ورقة البيانات.',
+ ai_copy:'نسخ الموجّه',ai_copied:'تم النسخ ✓',ai_show:'عرض الموجّه',ai_hide:'إخفاء الموجّه'},
+de:{ai_title:'KI-Assistenten-Prompt',ai_desc:'Lassen Sie einen beliebigen Chatbot (ChatGPT, Gemini, Claude, DeepSeek, Grok …) die CSV aus Teilenummer oder Pinout-Bild erstellen.',
+ ai_s1:'Prompt kopieren und als erste Nachricht in einem neuen Chat einfügen (oder als Anweisung eines Custom GPT / Gemini Gem / Claude-Projekts speichern). Nicht ändern.',
+ ai_s2:'In der nächsten Nachricht die Teilenummer und/oder ein Bild der Pintabelle bzw. Gehäusezeichnung senden.',
+ ai_s3:'Die zurückgegebene CSV kopieren und oben einfügen. Findet der Bot das Teil online nicht, fragt er nach dem Datenblatt.',
+ ai_copy:'Prompt kopieren',ai_copied:'Kopiert ✓',ai_show:'Prompt anzeigen',ai_hide:'Prompt ausblenden'},
+es:{ai_title:'Prompt para asistente de IA',ai_desc:'Deja que cualquier chatbot (ChatGPT, Gemini, Claude, DeepSeek, Grok…) prepare el CSV a partir de un número de parte o una imagen del pinout.',
+ ai_s1:'Copia el prompt y pégalo como primer mensaje de un chat nuevo (o guárdalo como instrucciones de un Custom GPT / Gemini Gem / proyecto de Claude). No lo edites.',
+ ai_s2:'En el siguiente mensaje envía el número de parte y/o una imagen de la tabla de pines o del dibujo del encapsulado.',
+ ai_s3:'Copia el CSV que devuelve y pégalo en el cuadro de arriba. Si el bot no encuentra la pieza en internet, te pedirá la hoja de datos.',
+ ai_copy:'Copiar prompt',ai_copied:'Copiado ✓',ai_show:'Mostrar prompt',ai_hide:'Ocultar prompt'}
+};
+Object.keys(AI).forEach(l=>Object.assign(I18N[l],AI[l]));
 const LANGS=[['en','English'],['fa','فارسی'],['zh','中文'],['ar','العربية'],['de','Deutsch'],['es','Español']];
 const DEMO=`Part Number,VALUE,Description,PARAM,PARAM2,Package,Price,Footprint
 DEMO-MCU,DEMO-MCU,"MCU, Demo, 32-bit, 64KB, QFN-16",3.3V,-40~85°C,QFN-16,,
@@ -284,7 +337,7 @@ const $=id=>document.getElementById(id); let parts=[],blob=null,lang='en',lastEr
 const T=k=>(I18N[lang]&&I18N[lang][k])||I18N.en[k]||k;
 function store(k,v){try{localStorage.setItem(k,v)}catch(e){}} function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
 
-function applyLang(l){
+var applyLang=function applyLang(l){
   lang=l; store('cb_lang',l);
   document.documentElement.lang=l; document.documentElement.dir=(l==='fa'||l==='ar')?'rtl':'ltr';
   const rtl=(l==='fa'||l==='ar'), iso=t=>rtl?t.replace(/\.?[A-Za-z0-9][A-Za-z0-9 .#_\/\\\-→+()×:]*[A-Za-z0-9.#)]/g,m=>'\u2066'+m+'\u2069'):t;
@@ -294,7 +347,7 @@ function applyLang(l){
   $('theme').title=T('theme');
   document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
   if(lastMsg) showLog(); preview();
-}
+};
 function showLog(){const L=$('log');L.classList.toggle('err',lastErr);L.textContent=lastMsg.text()}
 function setLog(fn,err){lastMsg={text:fn};lastErr=!!err;showLog()}
 function opts(){return {spacing:+$('sp').value,lenLR:+$('ll').value,lenTB:+$('lt').value,activeLow:$('al').value,rightOrder:$('ro').value}}
@@ -364,6 +417,18 @@ $('theme').onclick=()=>applyTheme(document.documentElement.dataset.theme==='dark
 $('langs').innerHTML=LANGS.map(([c,n])=>`<button data-l="${c}">${n}</button>`).join('');
 $('langs').onclick=e=>{const b=e.target.closest('button');if(b)applyLang(b.dataset.l)};
 applyTheme(load('cb_theme')|| (matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
+
+/* AI prompt section */
+const PROMPT=document.getElementById('promptSrc').textContent.trim();
+$('promptPre').textContent=PROMPT;
+let copiedT=null;
+$('pcopy').onclick=async()=>{
+  try{await navigator.clipboard.writeText(PROMPT)}catch(e){const ta=document.createElement('textarea');ta.value=PROMPT;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){ }ta.remove()}
+  $('pcopy').textContent=T('ai_copied'); clearTimeout(copiedT); copiedT=setTimeout(()=>{$('pcopy').textContent=T('ai_copy')},1800);
+};
+function setToggle(){$('ptoggle').textContent=T($('promptPre').classList.contains('open')?'ai_hide':'ai_show')}
+$('ptoggle').onclick=()=>{$('promptPre').classList.toggle('open');setToggle()};
+const _al=applyLang; applyLang=function(l){_al(l);setToggle()};
 applyLang('en');            // English is always the default
 $('t').value=DEMO; go();
 </script>
