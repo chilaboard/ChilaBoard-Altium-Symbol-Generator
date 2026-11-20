@@ -38,6 +38,17 @@ Pin No.,Pin Name,Type,Side
 * Library reference ≤ 31 chars, none of `\ / : * ? " < > |`.
 * Active-low pins: write `RESET#` (default) or choose the overbar style.
 
+## AI assistant prompt / پرامپت دستیار هوشمند
+Let any chatbot (ChatGPT, Gemini, Claude, DeepSeek, Grok…) prepare the CSV for you:
+عشقم، به چت بات ها اجازه بده برات CSV تولید کنن:
+
+1. Open [`prompts/AI_PROMPT.md`](prompts/AI_PROMPT.md) and copy the prompt (use the copy icon on the code block).
+2. Paste it as the **first message** of a new chat (or save it as a Custom GPT / Gemini Gem / Claude Project instruction). Do not edit it.
+3. In the **next message** send the part number and/or a picture of the pinout table or package drawing.
+4. Copy the CSV it returns and paste it into the web tool.
+
+If the bot cannot find the part online it will ask you for the datasheet.
+
 ## Web page / صفحه‌ی وب
 Enable GitHub Pages: *Settings → Pages → Branch `main`, folder `/docs`*. Rebuild after changing sources: `node build.js`.
 
